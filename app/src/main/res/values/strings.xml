@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Multi-Activity Results Demo</string>
+    <string name="title_activity_second">Second Activity</string>
+</resources>
