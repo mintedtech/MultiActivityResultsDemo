@@ -1,9 +1,9 @@
-package com.example.multiactivityresultsdemo;
+package com.example.multi_activity_results_demo;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -13,7 +13,9 @@ public class MainActivity extends AppCompatActivity
     private TextView mTvResults;
 
     // These could really be local but are kept up here to help ensure the codes remain unique
-    private final int REQUEST_CODE_ACTIVITY_2 = 18, REQUEST_CODE_ACTIVITY_3 = 90;
+    @SuppressWarnings("FieldCanBeLocal")
+    private final int REQUEST_CODE_ACTIVITY_2 = 18;
+    // private final int REQUEST_CODE_ACTIVITY_3 = 90; // not implemented, so commented out here
 
     @Override
     protected void onCreate (Bundle savedInstanceState)
@@ -21,8 +23,8 @@ public class MainActivity extends AppCompatActivity
         super.onCreate (savedInstanceState);
         setContentView (R.layout.activity_main);
 
-        // do this here so we don't need to do this every time we need this TextView
-        mTvResults = (TextView)findViewById (R.id.tv_results);
+        // do this here so we don't need to call findViewById every time we need this TextView
+        mTvResults = findViewById (R.id.tv_results);
 
     }
 

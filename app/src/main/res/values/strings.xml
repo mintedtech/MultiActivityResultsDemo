@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Multi-Activity Results Demo</string>
     <string name="title_activity_second">Second Activity</string>
+    <string name="banner">"This is Main Activity.\nSend/Receive data to/from:"</string>
+    <string name="activity_2">Activity 2</string>
+    <string name="activity_3">Activity 3</string>
+    <string name="footer">Results will be shown here once you tap on either Back button to back out of a secondary Activity</string>
 </resources>

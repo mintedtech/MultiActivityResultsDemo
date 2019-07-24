@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     android:id="@+id/activity_main"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.multiactivityresultsdemo.MainActivity">
+    tools:context="com.example.multi_activity_results_demo.MainActivity">
 
     <TextView
+        android:textColor="@color/colorPrimaryDark"
         android:id="@+id/tv_main"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
         android:gravity="center"
-        android:text="This is Main Activity.\n\nSend/Receive data to/from: "
+        android:text="@string/banner"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintEnd_toEndOf="@+id/button_activity3"
         app:layout_constraintStart_toStartOf="@+id/button_activity2"
@@ -22,22 +23,24 @@
         app:layout_constraintTop_toTopOf="@id/activity_main"/>
 
     <Button
+        style="@style/Widget.AppCompat.Button.Colored"
         android:id="@+id/button_activity2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
         android:onClick="handlerActivity2"
-        android:text="Activity 2"
+        android:text="@string/activity_2"
         app:layout_constraintLeft_toLeftOf="@id/activity_main"
         app:layout_constraintTop_toBottomOf="@+id/tv_main"/>
 
     <Button
+        style="@style/Widget.AppCompat.Button.Colored"
         android:id="@+id/button_activity3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
         android:onClick="handlerActivity3"
-        android:text="Activity 3"
+        android:text="@string/activity_3"
         app:layout_constraintRight_toRightOf="@id/activity_main"
         app:layout_constraintTop_toBottomOf="@+id/tv_main"/>
 
@@ -47,10 +50,10 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
         android:gravity="center"
-        android:text="Results will be shown here once you tap on either Back button to back out of a secondary Activity"
+        android:text="@string/footer"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintEnd_toEndOf="@+id/button_activity3"
         app:layout_constraintStart_toStartOf="@+id/button_activity2"
         app:layout_constraintBottom_toBottomOf="@+id/activity_main"/>
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

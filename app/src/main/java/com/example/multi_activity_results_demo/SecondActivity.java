@@ -1,47 +1,56 @@
-package com.example.multiactivityresultsdemo;
+package com.example.multi_activity_results_demo;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 public class SecondActivity extends AppCompatActivity
 {
     private int mFABClicks;
+    private View mSB_Container;
 
     @Override
     protected void onCreate (Bundle savedInstanceState)
     {
         super.onCreate (savedInstanceState);
         setContentView (R.layout.activity_second);
-
+        mSB_Container = findViewById(R.id.activity_second);
         setupToolbar ();
-        getIncomingData ();
         setupFAB ();
-
+        getIncomingData ();
     }
 
     private void setupToolbar ()
     {
-        Toolbar toolbar = (Toolbar) findViewById (R.id.toolbar);
+        setToolbarAsActionBar();
+        setBackButtonInActionBar();
+    }
+
+    private void setToolbarAsActionBar() {
+        Toolbar toolbar = findViewById (R.id.toolbar);
         setSupportActionBar (toolbar);
-        getSupportActionBar ().setDisplayHomeAsUpEnabled (true);
+    }
+
+    private void setBackButtonInActionBar() {
+        ActionBar actionBar = getSupportActionBar ();
+        if (actionBar != null)
+            actionBar.setDisplayHomeAsUpEnabled (true);
     }
 
     private void getIncomingData ()
     {
         Intent intent = getIntent ();
-        Toast.makeText (this,
-                        "Main Activity sent in: " +
-                                // "SAMPLE" key is identical to the intent putExtra in MainActivity
-                                intent.getIntExtra ("SAMPLE", -1),
-                        Toast.LENGTH_LONG).
-                show ();
+        String msg = "Main Activity sent in: " +                        // "SAMPLE" key matches key
+                intent.getIntExtra ("SAMPLE", -1);    // name used in MainActivity
+        Snackbar.make (mSB_Container, msg, Snackbar.LENGTH_LONG).show ();
     }
 
     private void setupFAB ()
@@ -50,7 +59,7 @@ public class SecondActivity extends AppCompatActivity
         mFABClicks=0;
 
         // Modify FAB listener code to show the number of times clicked
-        FloatingActionButton fab = (FloatingActionButton) findViewById (R.id.fab);
+        FloatingActionButton fab = findViewById (R.id.fab);
         fab.setOnClickListener (new View.OnClickListener ()
         {
             @Override
@@ -87,7 +96,7 @@ public class SecondActivity extends AppCompatActivity
         super.finish ();
     }
 
-    @Override public boolean onOptionsItemSelected (MenuItem item)
+    @Override public boolean onOptionsItemSelected (@NonNull MenuItem item)
     {
         // If the user hit the back button in the Toolbar
         if (item.getItemId () == android.R.id.home) {
