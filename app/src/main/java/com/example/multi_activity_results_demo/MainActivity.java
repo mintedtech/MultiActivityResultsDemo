@@ -3,59 +3,48 @@ package com.example.multi_activity_results_demo;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.multi_activity_results_demo.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity
 {
-    private TextView mTvResults;
-
-    // These could really be local but are kept up here to help ensure the codes remain unique
-    @SuppressWarnings("FieldCanBeLocal")
-    private final int REQUEST_CODE_ACTIVITY_2 = 18;
-    // private final int REQUEST_CODE_ACTIVITY_3 = 90; // not implemented, so commented out here
+    private ActivityMainBinding binding;
 
     @Override
     protected void onCreate (Bundle savedInstanceState)
     {
         super.onCreate (savedInstanceState);
-        setContentView (R.layout.activity_main);
-
-        // do this here so we don't need to call findViewById every time we need this TextView
-        mTvResults = findViewById (R.id.tv_results);
-
+        binding = ActivityMainBinding.inflate (getLayoutInflater ());
+        setContentView (binding.getRoot ());
     }
 
-    /**
-     * This is called automatically after the called (i.e. secondary) Activity has finished
-     * and control has passed back to MainActivity
-     * @param requestCode This is returned from when originally set in startActivityForResult here
-     * @param resultCode OK or otherwise
-     * @param data contains the Bundle that has the data we need from that auxiliary Activity
-     */
-    @Override protected void onActivityResult (int requestCode, int resultCode, Intent data)
-    {
+    ActivityResultLauncher<Intent> secondaryActivityLauncher =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+                    this::onReturnFromSecondaryActivityHandler);
+
+    private void onReturnFromSecondaryActivityHandler(ActivityResult result) {
         String resultsText;
-        String textFromCalledActivity = data.getStringExtra ("MSG_FROM_ACTIVITY");
+        Intent incomingData = result.getData();
 
-        // Could also first do if (resultCode == REQUEST_CODE_ACTIVITY_2)
-        // That would tell you before doing anything else which Activity you've come back from
+        String activityName = incomingData == null ?
+                "Unknown Activity" : incomingData.getStringExtra("ACTIVITY_NAME");
 
-        // Regardless of which activity just ended...
-        if (resultCode == Activity.RESULT_OK) {
-            resultsText = "Successfully returned to Main the text:\n"+ textFromCalledActivity
-            + "from (Activity request code number is: " + requestCode + "): ";
+        String textFromCalledActivity = incomingData == null ?
+                "No Data" : incomingData.getStringExtra ("MSG_FROM_ACTIVITY");
 
-            }
-        else {
-            resultsText = "No valid result from Activity request code: " + requestCode;
-            super.onActivityResult (requestCode, resultCode, data);
-        }
+        resultsText = result.getResultCode()==Activity.RESULT_OK ?
+                "Successfully returned to Main:\n"+ textFromCalledActivity +
+                        " from " +  activityName :
+                "No valid result from " + activityName;
 
-        mTvResults.setText (resultsText);
-
+        binding.tvResults.setText (resultsText);
     }
 
     /**
@@ -73,13 +62,20 @@ public class MainActivity extends AppCompatActivity
         intent.putExtra ("SAMPLE", 360);
 
         // Launch the Activity and wait for a result
-        startActivityForResult (intent, REQUEST_CODE_ACTIVITY_2);
+        secondaryActivityLauncher.launch(intent);
     }
 
     public void handlerActivity3 (View view)
     {
-        // similar to above
-        // In the startActivityForResult, pass the request code for Activity 3 (see fields above)
+        // same as handlerActivity2 other than the name of the Activity called
+        // so, we just need a ThirdActivity Activity that, like Second Activity
+        // accepts the sample data and, on finish, sends back the activity name and results text
+
+/*
+        Intent intent = new Intent (getApplicationContext (), ThirdActivity.class);
+        intent.putExtra ("SAMPLE", 720);
+        secondaryActivityLauncher.launch(intent);*/
+
         Toast.makeText (this,"Not implemented", Toast.LENGTH_LONG).show ();
     }
 }

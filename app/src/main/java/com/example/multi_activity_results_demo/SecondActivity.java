@@ -48,9 +48,9 @@ public class SecondActivity extends AppCompatActivity
     private void getIncomingData ()
     {
         Intent intent = getIntent ();
-        String msg = "Main Activity sent in: " +                        // "SAMPLE" key matches key
+        String msg = "Main Activity sent in Sample Data: " +           // "SAMPLE" key matches key
                 intent.getIntExtra ("SAMPLE", -1);    // name used in MainActivity
-        Snackbar.make (mSB_Container, msg, Snackbar.LENGTH_LONG).show ();
+        showSnackBar(mSB_Container, msg);
     }
 
     private void setupFAB ()
@@ -60,17 +60,14 @@ public class SecondActivity extends AppCompatActivity
 
         // Modify FAB listener code to show the number of times clicked
         FloatingActionButton fab = findViewById (R.id.fab);
-        fab.setOnClickListener (new View.OnClickListener ()
-        {
-            @Override
-            public void onClick (View view)
-            {
-                // output and increment counter
-                Snackbar.make (view, "You clicked " + ++mFABClicks + " times.",
-                               Snackbar.LENGTH_LONG)
-                        .show ();
-            }
-        });
+        fab.setOnClickListener (view -> showSnackBar(view, "You clicked " + ++mFABClicks + " times."));
+    }
+
+    private void showSnackBar(View view, String msg) {
+        // output and increment counter
+        Snackbar.make (view, msg,
+                       Snackbar.LENGTH_LONG)
+                .show ();
     }
 
     /**
@@ -84,6 +81,7 @@ public class SecondActivity extends AppCompatActivity
         Intent intentResults = new Intent ();
 
         // Add some sample data
+        intentResults.putExtra("ACTIVITY_NAME", "Second Activity");
         intentResults.putExtra ("MSG_FROM_ACTIVITY",
                                 "SecondActivity-->MainActivity: FAB clicked " + mFABClicks + " times.\n");
 
